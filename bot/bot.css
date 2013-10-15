@@ -9,3 +9,7 @@
     height: 100px;
     font: 13px/27px Arial, sans-serif;
 }
+
+.lBotAction {
+    cursor: pointer;
+}

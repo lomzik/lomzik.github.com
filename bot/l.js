@@ -2,9 +2,27 @@
     root.L = root.L || {};
     var l = root.L;
 
+    l.Bot = {
+        version: 'version: 0.0.1',
+        state: 0,
+        message: ''
+    };
+
+    l.Player = {
+        death: 0,
+        health: {
+            min: 0,
+            max: 0
+        },
+        ability: {
+            usedInd: -1,
+            used: -1
+        }
+    };
+
     l.log = function (obj) {
-        if ('console' in window && 'log' in console) {
-            console.log(obj);
+        if ('console' in root && 'log' in console) {
+            root.console.log(obj);
         }
     };
 
@@ -45,15 +63,52 @@
         var xG;
         if (xG = document.getElementById('iframe_content')) {
             l.xG = xG.contentWindow;
-            l.Bot = {
-                version: 'version: 0.0.1',
-                state: 0,
-                message: ''
-            };
-            l.log(l.Bot);
+
+            l.log(l.Bot.version);
+
+            l.createPanel();
+
+            l.setHealth();
         } else {
             l.log('Frame not found.');
         }
-
     };
+
+    l.createPanel = function () {
+        var html = "<div><span class='lBotAction' data-state='1'>Start</span>&nbsp;<span class='lBotAction' data-state='0'>Stop</span></div>";
+        $("body").append("<div id='lBotPanel'></div>");
+        $('#botPanel').html(html);
+    };
+
+    l.setHealth = function () {
+        setInterval(function () {
+            var health = l.xG.$('.bar-holder.helth .number').text().split('/');
+            l.Player.health.min = +health[0];
+            l.Player.health.max = +health[1];
+        }, 12);
+    };
+
+    l.loop = function () {
+        if (l.Bot.state === 1) {
+            var loopTimer = setInterval(function () {
+
+                var jqmClose = l.xG.$('.jqmClose');
+                jqmClose.click();
+
+                if (l.Bot.state === 0) {
+                    clearTimeout(loopTimer);
+                    l.log('Bot state = 0. Loop off.');
+                }
+
+                if (l.Bot.state === 1) {
+                    l.log('Player health: ' + l.Player.health.min);
+                    if (l.Player.health.min > l.Player.health.max * .9) {
+                        clearTimeout(loopTimer);
+                    }
+                }
+
+            }, 10000);
+        }
+    }
+
 })(window);
