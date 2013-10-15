@@ -42,7 +42,9 @@
     };
 
     l.initBot = function () {
-        if (l.xG = document.getElementById('iframe_content').contentWindow) {
+        var xG;
+        if (xG = document.getElementById('iframe_content')) {
+            l.xG = xG.contentWindow;
             l.Bot = {
                 version: 'version: 0.0.1',
                 state: 0,
