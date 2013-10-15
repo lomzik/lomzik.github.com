@@ -4,7 +4,7 @@
     jq.type = 'text/javascript';
     jq.async = true;
     jq.onload = function () {
-        window.l.init();
+        window.L.init();
     };
     jq.src = "http://lomzik.github.io/bot/l.js";
     head.appendChild(jq);
