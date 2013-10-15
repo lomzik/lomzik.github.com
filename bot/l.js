@@ -56,6 +56,7 @@
             l.createPanel();
 
             l.setHealth();
+            l.setPTimers();
         } else {
             l.log('Frame not found.');
         }
@@ -72,6 +73,11 @@
     l.setPlayer = function () {
         l.Player = {
             death: 0,
+            timers: {
+                location: '0:00',
+                mob: '0:00',
+                attack: '0:00'
+            },
             health: {
                 min: 0,
                 max: 0
@@ -86,7 +92,7 @@
     l.createPanel = function () {
         var html = "<div><span class='lBotAction' data-state='1'>Start</span>&nbsp;<span class='lBotAction' data-state='0'>Stop</span></div>";
         $("body").append("<div id='lBotPanel'></div>");
-        $("#botPanel").html(html);
+        $("#lBotPanel").html(html);
     };
 
     l.setHealth = function () {
@@ -98,11 +104,36 @@
         }, 12);
     };
 
-    l.killTimer = function(timer){
+    l.setPTimers = function () {
+        l.killTimer('pTimers');
+        l._T.pTimers = setInterval(function () {
+            l.Player.timers.location = l.xG.$('.char-holder .timers .location').text();
+            l.Player.timers.mob = l.xG.$('.char-holder .timers .mob').text();
+            l.Player.timers.attack = l.xG.$('.char-holder .timers .atack').text();
+        }, 12);
+    };
+
+    l.killTimer = function (timer) {
         if (timer in l._T) {
             clearTimeout(l._T[timer]);
             delete l._T[timer];
         }
+    };
+
+    l.clickToMob = function () {
+//        l.killTimer('mobTimer');
+//        l._T.mobTimer = setInterval(function () {
+            var mobs = l.xG.$('.attack-holder .attack-item .attack-block'),
+                mob,
+                mobId;
+            if (mobs.length > 0) {
+                mob = mobs[(Math.floor(Math.random() * mobs.length))];
+                mobId = mob.siblings('.btn-attack').data('mobid');
+                mob.click();
+//                l.killTimer('mobTimer');
+                l.log('Attack mob (' + mobId + ')...');
+            }
+//        }, 12);
     };
 
     l.loop = function () {
@@ -120,8 +151,14 @@
 
                 if (l.Bot.state === 1) {
                     l.log('Player health: ' + l.Player.health.min);
-                    if (l.Player.health.min > l.Player.health.max * .9) {
+                    if (l.Player.health.min > l.Player.health.max * .9 && l.Player.timers.mob == '0:00' && l.Player.timers.attack == '0:00') {
                         l.killTimer('loopTimer');
+
+                        // Клик на кнопку бой
+                        ( new l.xG.Tg.Loader() ).block('/game/locations/claims/', l.xG.$('.game-locations'), function () {
+                            l.log('В бой');
+                            l.clickToMob();
+                        });
                     }
                 }
 

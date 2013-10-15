@@ -2,7 +2,7 @@
     display: block;
     position: absolute;
     background: #ffffff;
-    zIndex: 1000000;
+    z-index: 1000000;
     right: 0;
     top: 100px;
     width: 262px;
