@@ -2,23 +2,7 @@
     root.L = root.L || {};
     var l = root.L;
 
-    l.Bot = {
-        version: 'version: 0.0.1',
-        state: 0,
-        message: ''
-    };
-
-    l.Player = {
-        death: 0,
-        health: {
-            min: 0,
-            max: 0
-        },
-        ability: {
-            usedInd: -1,
-            used: -1
-        }
-    };
+    l._T = {};
 
     l.log = function (obj) {
         if ('console' in root && 'log' in console) {
@@ -64,6 +48,9 @@
         if (xG = document.getElementById('iframe_content')) {
             l.xG = xG.contentWindow;
 
+            l.setBot();
+            l.setPlayer();
+
             l.log(l.Bot.version);
 
             l.createPanel();
@@ -74,14 +61,40 @@
         }
     };
 
+    l.setBot = function () {
+        l.Bot = {
+            version: 'version: 0.0.1',
+            state: 0,
+            message: ''
+        };
+    };
+
+    l.setPlayer = function () {
+        l.Player = {
+            death: 0,
+            health: {
+                min: 0,
+                max: 0
+            },
+            ability: {
+                usedInd: -1,
+                used: -1
+            }
+        };
+    };
+
     l.createPanel = function () {
         var html = "<div><span class='lBotAction' data-state='1'>Start</span>&nbsp;<span class='lBotAction' data-state='0'>Stop</span></div>";
         $("body").append("<div id='lBotPanel'></div>");
-        $('#botPanel').html(html);
+        $("#botPanel").html(html);
     };
 
     l.setHealth = function () {
-        setInterval(function () {
+        if ('health' in l._T) {
+            clearTimeout(l._T.health);
+            delete l._T.health;
+        }
+        l._T.health = setInterval(function () {
             var health = l.xG.$('.bar-holder.helth .number').text().split('/');
             l.Player.health.min = +health[0];
             l.Player.health.max = +health[1];
