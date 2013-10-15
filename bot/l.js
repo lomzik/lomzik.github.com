@@ -90,10 +90,7 @@
     };
 
     l.setHealth = function () {
-        if ('health' in l._T) {
-            clearTimeout(l._T.health);
-            delete l._T.health;
-        }
+        l.killTimer('health');
         l._T.health = setInterval(function () {
             var health = l.xG.$('.bar-holder.helth .number').text().split('/');
             l.Player.health.min = +health[0];
@@ -101,22 +98,30 @@
         }, 12);
     };
 
+    l.killTimer = function(timer){
+        if (timer in l._T) {
+            clearTimeout(l._T[timer]);
+            delete l._T[timer];
+        }
+    };
+
     l.loop = function () {
         if (l.Bot.state === 1) {
-            var loopTimer = setInterval(function () {
+            l.killTimer('loopTimer');
+            l._T.loopTimer = setInterval(function () {
 
                 var jqmClose = l.xG.$('.jqmClose');
                 jqmClose.click();
 
                 if (l.Bot.state === 0) {
-                    clearTimeout(loopTimer);
+                    l.killTimer('loopTimer');
                     l.log('Bot state = 0. Loop off.');
                 }
 
                 if (l.Bot.state === 1) {
                     l.log('Player health: ' + l.Player.health.min);
                     if (l.Player.health.min > l.Player.health.max * .9) {
-                        clearTimeout(loopTimer);
+                        l.killTimer('loopTimer');
                     }
                 }
 
