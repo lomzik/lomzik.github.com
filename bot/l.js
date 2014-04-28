@@ -111,6 +111,7 @@
 
             jqmWindow.find('a.button.jqmClose').trigger('click');
 
+            l.loop();
         }, 12);
     };
 
@@ -154,12 +155,12 @@
             mobId = mob.siblings('.btn-attack').data('mobid');
             mob.trigger('click');
             l.log('Attack mob (' + mobId + ')...');
-            l.lookingMob();
+            l.waitingMob();
         }
     };
 
-    l.lookingMob = function () {
-        l.killTimer('lookingMobTimer');
+    l.waitingMob = function () {
+        l.killTimer('waitingMobTimer');
         l._T.battle.lookingMobTimer = setInterval(function () {
             var _p = l.xG.$('.iframebattle-content .protection'),
                 _abl = _p.find('li.ability'),
@@ -167,7 +168,7 @@
                 cur_abl;
 
             if (_p.length > 0) {
-                l.killTimer('lookingMobTimer');
+                l.killTimer('waitingMobTimer');
 
                 function attack() {
                     var av_abl = _abl.find('.ability').not('.inactive');
@@ -176,11 +177,13 @@
                         var s = $(this);
                         if (s.data('ability') !== cur_abl) {
                             s.trigger('click');
+                            l.log('Умение...');
                             return false;
                         }
                     });
 
                     _btn.trigger('click');
+                    l.log('Удар...');
 
                 };
 
