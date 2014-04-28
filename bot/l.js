@@ -182,28 +182,32 @@
                 l.killTimer('waitingMobTimer');
 
                 function attack() {
-                    var _abl = _p.find('li.ability .ability').not('.inactive'),
+                    var /*_p = l.xG.$('.iframebattle-content .protection'),*/
+                        _abl = _p.find('li.ability .ability').not('.inactive'),
                         _btn = _p.find('a.go-btn');
 
                     if (_btn.length > 0) {
-                        _abl.each(function () {
-                            var s = $(this);
-                            if (s.data('ability') !== cur_abl) {
-                                cur_abl = s.data('ability');
-                                s.trigger('click');
-                                l.log('Умение...');
-                                return false;
-                            }
-                        });
-
+                        /*_abl.each(function () {
+                         var s = $(this);
+                         if (s.data('ability') !== cur_abl) {
+                         cur_abl = s.data('ability');
+                         s.trigger('click');
+                         l.log('Умение...');
+                         return false;
+                         }
+                         });*/
 
                         _btn.trigger('click');
                         l.log('Удар...');
+                    } else {
+                        l.killTimer('attackMob');
                     }
 
                 };
 
-                l._T.battle.attackMob = setInterval(attack, 50);
+                l._T.battle.attackMob = setInterval(function () {
+                    attack();
+                }, 50);
             }
 
         }, 12);
