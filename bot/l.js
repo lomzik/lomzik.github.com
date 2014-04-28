@@ -97,7 +97,7 @@
 
         $("#lBotPanel").on('click', '.lBotAction', function (e) {
             e.preventDefault();
-            l.Bot.state = e.target.data('state') << 0;
+            l.Bot.state = $(e.target).data('state') << 0;
             
             l.loop();
         });
