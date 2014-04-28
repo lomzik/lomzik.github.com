@@ -188,18 +188,19 @@
     l.attack = function () {
         l._T.battle.attackMob = setInterval(function () {
             var _p = l.xG.$('.iframebattle-content .protection'),
-                _abl = _p.find('li.ability .ability:not(.inactive)'),//.not('.inactive'),
+                _abl = _p.find('li.ability a.ability:not(.inactive)'),//.not('.inactive'),
                 _btn = _p.find('a.go-btn:not(.pressed)');//.not('.pressed');
 
             if (_p.length > 0) {
                 if (_btn.length > 0) {
                     if (_abl.length > 0) {
                         _abl.each(function () {
-                            var s = $(this);
-                            if (s.data('ability') !== l.Player.ability.usedInd) {
-                                l.Player.ability.usedInd = s.data('ability');
+                            var s = $(this),
+                                ablId = s.data('ability');
+                            if (ablId !== l.Player.ability.usedInd) {
+                                l.Player.ability.usedInd = ablId;
                                 s.trigger('click');
-                                l.log('Умение...');
+                                l.log('Умение ' + ablId + '...');
                                 return false;
                             }
                         });
