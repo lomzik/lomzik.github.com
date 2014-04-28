@@ -220,6 +220,13 @@
             l._T.battle.loopTimer = setInterval(function () {
                 if (l.Bot.state === 1) {
                     l.log('Player health: ' + l.Player.health.min + ' ');
+
+                    if (l.xG.$('.iframebattle-content .protection').length > 0) {
+                        l.killTimer('loopTimer');
+                        l.waitingMob();
+                    }
+
+
                     if (l.Player.health.min > l.Player.health.max * .9 && l.Player.timers.mob == '0:00' && l.Player.timers.attack == '0:00') {
                         l.killTimer('loopTimer');
 
