@@ -154,6 +154,7 @@
             mobId = mob.siblings('.btn-attack').data('mobid');
             mob.trigger('click');
             l.log('Attack mob (' + mobId + ')...');
+            l.lookingMob();
         }
     };
 
