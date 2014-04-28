@@ -173,9 +173,8 @@
 
     l.waitingMob = function () {
         l.killTimer('waitingMobTimer');
-        l._T.battle.lookingMobTimer = setInterval(function () {
+        l._T.battle.waitingMobTimer = setInterval(function () {
             var _p = l.xG.$('.iframebattle-content .protection'),
-
                 cur_abl;
 
             if (_p.length > 0) {
