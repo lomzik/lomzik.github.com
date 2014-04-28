@@ -2,7 +2,7 @@
     root.L = root.L || {};
     var l = root.L;
 
-    l._T = {};
+    l._T = {battle: {}};
 
     l.log = function (obj) {
         if ('console' in root && 'log' in console) {
@@ -58,6 +58,7 @@
 
             l.setHealth();
             l.setPTimers();
+            l.setCloser();
         } else {
             l.log('Frame not found.');
         }
@@ -97,10 +98,20 @@
 
         $("#lBotPanel").on('click', '.lBotAction', function (e) {
             e.preventDefault();
-            l.Bot.state = $(e.target).data('state') << 0;
-            
+            l.Bot.state = e.target.data('state') << 0;
+
             l.loop();
         });
+    };
+
+    l.setCloser = function () {
+        l.killTimer('closer');
+        l._T.health = setInterval(function () {
+            var jqmWindow = l.xG.$('.jqmWindow');
+
+            jqmWindow.find('a.button.jqmClose').trigger('click');
+
+        }, 12);
     };
 
     l.setHealth = function () {
@@ -122,32 +133,66 @@
     };
 
     l.killTimer = function (timer) {
-        if (timer in l._T) {
-            clearTimeout(l._T[timer]);
-            delete l._T[timer];
+        if (timer in l._T.battle) {
+            clearTimeout(l._T.battle[timer]);
+            delete l._T.battle[timer];
+        }
+    };
+
+    l.killTimers = function () {
+        for (var timer in l._T.battle) {
+            l.killTimer(l._T.battle[timer]);
         }
     };
 
     l.clickToMob = function () {
-//        l.killTimer('mobTimer');
-//        l._T.mobTimer = setInterval(function () {
         var mobs = l.xG.$('.attack-holder .attack-item .attack-block'),
             mob,
             mobId;
         if (mobs.length > 0) {
-            mob = mobs[(Math.floor(Math.random() * mobs.length))];
+            mob = $(mobs[(Math.floor(Math.random() * mobs.length))]);
             mobId = mob.siblings('.btn-attack').data('mobid');
-            mob.click();
-//                l.killTimer('mobTimer');
+            mob.trigger('click');
             l.log('Attack mob (' + mobId + ')...');
         }
-//        }, 12);
+    };
+
+    l.lookingMob = function () {
+        l.killTimer('lookingMobTimer');
+        l._T.battle.lookingMobTimer = setInterval(function () {
+            var _p = l.xG.$('.iframebattle-content .protection'),
+                _abl = _p.find('li.ability'),
+                _btn = _p.find('a.go-btn'),
+                cur_abl;
+
+            if (_p.length > 0) {
+                l.killTimer('lookingMobTimer');
+
+                function attack() {
+                    var av_abl = _abl.find('.ability').not('.inactive');
+
+                    av_abl.each(function () {
+                        var s = $(this);
+                        if (s.data('ability') !== cur_abl) {
+                            s.trigger('click');
+                            return false;
+                        }
+                    });
+
+                    _btn.trigger('click');
+
+                };
+
+                l._T.battle.attackMob = setInterval(attack, 12);
+            }
+
+        }, 12);
     };
 
     l.loop = function () {
+        l.killTimers();
         if (l.Bot.state === 1) {
-            l.killTimer('loopTimer');
-            l._T.loopTimer = setInterval(function () {
+            l._T.battle.loopTimer = setInterval(function () {
 
                 var jqmClose = l.xG.$('.jqmClose');
                 jqmClose.click();
@@ -171,8 +216,6 @@
                 }
 
             }, 10000);
-        } else {
-            l.killTimer('loopTimer');
         }
     }
 
