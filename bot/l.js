@@ -120,7 +120,7 @@
             if (jqmWindow.length > 0) {
                 jqmWindow.find('a.button.jqmClose').trigger('click');
                 l.log('close window');
-                l.loop();
+//                l.loop();
             }
         }, 50);
     };
@@ -210,7 +210,7 @@
                 }
             } else {
                 l.killTimer('attackMob');
-//                l.loop();
+                l.loop();
             }
         }, 50);
     };
