@@ -28,7 +28,8 @@
             l.log('jQuery loaded.');
             l.jQ_cb();
         };
-        jq.src = "http://code.jquery.com/jquery-1.10.2.min.js";
+//        jq.src = "http://code.jquery.com/jquery-1.11.0.min.js";
+        jq.src = "http://code.jquery.com/jquery-2.1.0.min.js";
         head.appendChild(jq);
     };
 
@@ -64,7 +65,7 @@
 
     l.setBot = function () {
         l.Bot = {
-            version: 'version: 0.0.1',
+            version: 'Bot version: 0.0.1',
             state: 0,
             message: ''
         };
@@ -93,6 +94,13 @@
         var html = "<div><span class='lBotAction' data-state='1'>Start</span>&nbsp;<span class='lBotAction' data-state='0'>Stop</span></div>";
         $("body").append("<div id='lBotPanel'></div>");
         $("#lBotPanel").html(html);
+
+        $("#lBotPanel").on('click', '.lBotAction', function (e) {
+            e.preventDefault();
+            l.Bot.state = e.target.data('state') << 0;
+            
+            l.loop();
+        });
     };
 
     l.setHealth = function () {
@@ -123,16 +131,16 @@
     l.clickToMob = function () {
 //        l.killTimer('mobTimer');
 //        l._T.mobTimer = setInterval(function () {
-            var mobs = l.xG.$('.attack-holder .attack-item .attack-block'),
-                mob,
-                mobId;
-            if (mobs.length > 0) {
-                mob = mobs[(Math.floor(Math.random() * mobs.length))];
-                mobId = mob.siblings('.btn-attack').data('mobid');
-                mob.click();
+        var mobs = l.xG.$('.attack-holder .attack-item .attack-block'),
+            mob,
+            mobId;
+        if (mobs.length > 0) {
+            mob = mobs[(Math.floor(Math.random() * mobs.length))];
+            mobId = mob.siblings('.btn-attack').data('mobid');
+            mob.click();
 //                l.killTimer('mobTimer');
-                l.log('Attack mob (' + mobId + ')...');
-            }
+            l.log('Attack mob (' + mobId + ')...');
+        }
 //        }, 12);
     };
 
@@ -163,6 +171,8 @@
                 }
 
             }, 10000);
+        } else {
+            l.killTimer('loopTimer');
         }
     }
 
