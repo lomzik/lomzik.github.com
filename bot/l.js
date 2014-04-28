@@ -208,7 +208,7 @@
                 }
             } else {
                 l.killTimer('attackMob');
-                l.loop();
+//                l.loop();
             }
         }, 50);
     };
@@ -221,7 +221,8 @@
                     l.log('Player health: ' + l.Player.health.min + ' ');
 
                     if (l.xG.$('.iframebattle-content .protection').length > 0) {
-                        l.killTimer('loopTimer');
+//                        l.killTimer('loopTimer');
+                        l.killTimers();
                         l.attack();
                     }
 
