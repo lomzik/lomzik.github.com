@@ -175,8 +175,7 @@
     l.waitingMob = function () {
         l.killTimer('waitingMobTimer');
         l._T.battle.waitingMobTimer = setInterval(function () {
-            var _p = l.xG.$('.iframebattle-content .protection'),
-                cur_abl;
+            var _p = l.xG.$('.iframebattle-content .protection');
 
             if (_p.length > 0) {
                 l.killTimer('waitingMobTimer');
@@ -194,15 +193,15 @@
 
             if (_p.length > 0) {
                 if (_btn.length > 0) {
-                    /*_abl.each(function () {
-                     var s = $(this);
-                     if (s.data('ability') !== cur_abl) {
-                     cur_abl = s.data('ability');
-                     s.trigger('click');
-                     l.log('Умение...');
-                     return false;
-                     }
-                     });*/
+                    _abl.each(function () {
+                        var s = $(this);
+                        if (s.data('ability') !== l.Player.ability.usedInd) {
+                            l.Player.ability.usedInd = s.data('ability');
+                            s.trigger('click');
+                            l.log('Умение...');
+                            return false;
+                        }
+                    });
 
                     _btn.trigger('click');
                     l.log('Удар...');
