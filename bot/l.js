@@ -116,9 +116,11 @@
         l._T.health = setInterval(function () {
             var jqmWindow = l.xG.$('.jqmWindow');
 
-            jqmWindow.find('a.button.jqmClose').trigger('click');
+            if (jqmWindow.length > 0) {
+                jqmWindow.find('a.button.jqmClose').trigger('click');
 
-            l.loop();
+                l.loop();
+            }
         }, 12);
     };
 
