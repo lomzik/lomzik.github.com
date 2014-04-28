@@ -112,8 +112,9 @@
     };
 
     l.setCloser = function () {
-        l.killTimer('closer');
-        l._T.health = setInterval(function () {
+        clearTimeout(l._T['closer']);
+        delete l._T['closer'];
+        l._T.closer = setInterval(function () {
             var jqmWindow = l.xG.$('.jqmWindow');
 
             if (jqmWindow.length > 0) {
@@ -125,7 +126,8 @@
     };
 
     l.setHealth = function () {
-        l.killTimer('health');
+        clearTimeout(l._T['health']);
+        delete l._T['health'];
         l._T.health = setInterval(function () {
             var health = l.xG.$('.bar-holder.helth .number').text().split('/');
             l.Player.health.min = +health[0];
@@ -134,7 +136,8 @@
     };
 
     l.setPTimers = function () {
-        l.killTimer('pTimers');
+        clearTimeout(l._T['pTimers']);
+        delete l._T['pTimers'];
         l._T.pTimers = setInterval(function () {
             l.Player.timers.location = l.xG.$('.char-holder .timers .location').text();
             l.Player.timers.mob = l.xG.$('.char-holder .timers .mob').text();
