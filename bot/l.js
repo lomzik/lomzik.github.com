@@ -179,39 +179,38 @@
 
             if (_p.length > 0) {
                 l.killTimer('waitingMobTimer');
-
-                function attack() {
-                    var _p = l.xG.$('.iframebattle-content .protection'),
-                        _abl = _p.find('li.ability .ability').not('.inactive'),
-                        _btn = _p.find('a.go-btn').not('.pressed');
-
-                    if (_p.length > 0) {
-                        if (_btn.length > 0) {
-                            /*_abl.each(function () {
-                             var s = $(this);
-                             if (s.data('ability') !== cur_abl) {
-                             cur_abl = s.data('ability');
-                             s.trigger('click');
-                             l.log('Умение...');
-                             return false;
-                             }
-                             });*/
-
-                            _btn.trigger('click');
-                            l.log('Удар...');
-                        }
-                    } else {
-                        l.loop();
-                    }
-
-                };
-
-                l._T.battle.attackMob = setInterval(function () {
-                    attack();
-                }, 50);
+                l.attack();
             }
 
         }, 12);
+    };
+
+    l.attack = function () {
+        l._T.battle.attackMob = setInterval(function () {
+            var _p = l.xG.$('.iframebattle-content .protection'),
+                _abl = _p.find('li.ability .ability').not('.inactive'),
+                _btn = _p.find('a.go-btn').not('.pressed');
+
+            if (_p.length > 0) {
+                if (_btn.length > 0) {
+                    /*_abl.each(function () {
+                     var s = $(this);
+                     if (s.data('ability') !== cur_abl) {
+                     cur_abl = s.data('ability');
+                     s.trigger('click');
+                     l.log('Умение...');
+                     return false;
+                     }
+                     });*/
+
+                    _btn.trigger('click');
+                    l.log('Удар...');
+                }
+            } else {
+                l.killTimer('attackMob');
+                l.loop();
+            }
+        }, 50);
     };
 
     l.loop = function () {
