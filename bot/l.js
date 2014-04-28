@@ -100,7 +100,14 @@
             e.preventDefault();
             l.Bot.state = $(e.target).data('state') << 0;
 
-            l.loop();
+            if (l.Bot.state === 0) {
+                l.killTimers();
+                l.log('Bot state = 0. Loop off.');
+            } else {
+                l.log('Bot state = 1. Looping.');
+                l.loop();
+            }
+
         });
     };
 
@@ -198,26 +205,26 @@
         if (l.Bot.state === 1) {
             l._T.battle.loopTimer = setInterval(function () {
 
-                var jqmClose = l.xG.$('.jqmClose');
-                jqmClose.click();
+//                var jqmClose = l.xG.$('.jqmClose');
+//                jqmClose.click();
 
-                if (l.Bot.state === 0) {
+//                if (l.Bot.state === 0) {
+//                    l.killTimers();
+//                    l.log('Bot state = 0. Loop off.');
+//                }
+//
+//                if (l.Bot.state === 1) {
+                l.log('Player health: ' + l.Player.health.min);
+                if (l.Player.health.min > l.Player.health.max * .9 && l.Player.timers.mob == '0:00' && l.Player.timers.attack == '0:00') {
                     l.killTimer('loopTimer');
-                    l.log('Bot state = 0. Loop off.');
-                }
 
-                if (l.Bot.state === 1) {
-                    l.log('Player health: ' + l.Player.health.min);
-                    if (l.Player.health.min > l.Player.health.max * .9 && l.Player.timers.mob == '0:00' && l.Player.timers.attack == '0:00') {
-                        l.killTimer('loopTimer');
-
-                        // Клик на кнопку бой
-                        ( new l.xG.Tg.Loader() ).block('/game/locations/claims/', l.xG.$('.game-locations'), function () {
-                            l.log('В бой');
-                            l.clickToMob();
-                        });
-                    }
+                    // Клик на кнопку бой
+                    ( new l.xG.Tg.Loader() ).block('/game/locations/claims/', l.xG.$('.game-locations'), function () {
+                        l.log('В бой');
+                        l.clickToMob();
+                    });
                 }
+//                }
 
             }, 10000);
         }
