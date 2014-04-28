@@ -154,8 +154,9 @@
 
     l.killTimers = function () {
         for (var timer in l._T.battle) {
-            l.killTimer(l._T.battle[timer]);
+            clearTimeout(l._T.battle[timer]);
         }
+        l._T.battle = {};
     };
 
     l.clickToMob = function () {
