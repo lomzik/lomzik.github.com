@@ -199,7 +199,7 @@
                                 ablId = s.data('ability');
                             if (ablId !== l.Player.ability.usedInd) {
                                 l.Player.ability.usedInd = ablId;
-                                s.trigger('click');
+                                s.trigger('click').find('.circle,.ability').trigger('click');
                                 l.log('Умение ' + ablId + '...');
                                 return false;
                             }
