@@ -172,27 +172,31 @@
         l.killTimer('waitingMobTimer');
         l._T.battle.lookingMobTimer = setInterval(function () {
             var _p = l.xG.$('.iframebattle-content .protection'),
-                _abl = _p.find('li.ability'),
-                _btn = _p.find('a.go-btn'),
+
                 cur_abl;
 
             if (_p.length > 0) {
                 l.killTimer('waitingMobTimer');
 
                 function attack() {
-                    var av_abl = _abl.find('.ability').not('.inactive');
+                    var _abl = _p.find('li.ability .ability').not('.inactive'),
+                        _btn = _p.find('a.go-btn');
 
-                    av_abl.each(function () {
-                        var s = $(this);
-                        if (s.data('ability') !== cur_abl) {
-                            s.trigger('click');
-                            l.log('Умение...');
-                            return false;
-                        }
-                    });
+                    if (_btn.length > 0) {
+                        _abl.each(function () {
+                            var s = $(this);
+                            if (s.data('ability') !== cur_abl) {
+                                cur_abl = s.data('ability');
+                                s.trigger('click');
+                                l.log('Умение...');
+                                return false;
+                            }
+                        });
 
-                    _btn.trigger('click');
-                    l.log('Удар...');
+
+                        _btn.trigger('click');
+                        l.log('Удар...');
+                    }
 
                 };
 
@@ -207,7 +211,7 @@
         if (l.Bot.state === 1) {
             l._T.battle.loopTimer = setInterval(function () {
                 if (l.Bot.state === 1) {
-                    l.log('Player health: ' + l.Player.health.min);
+                    l.log('Player health: ' + l.Player.health.min + ' ');
                     if (l.Player.health.min > l.Player.health.max * .9 && l.Player.timers.mob == '0:00' && l.Player.timers.attack == '0:00') {
                         l.killTimer('loopTimer');
 
