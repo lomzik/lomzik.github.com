@@ -119,10 +119,10 @@
 
             if (jqmWindow.length > 0) {
                 jqmWindow.find('a.button.jqmClose').trigger('click');
-
+                l.log('close window');
                 l.loop();
             }
-        }, 12);
+        }, 50);
     };
 
     l.setHealth = function () {
