@@ -222,7 +222,7 @@
 
                     if (l.xG.$('.iframebattle-content .protection').length > 0) {
                         l.killTimer('loopTimer');
-                        l.waitingMob();
+                        l.attack();
                     }
 
 
