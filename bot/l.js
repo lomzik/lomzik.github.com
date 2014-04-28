@@ -207,9 +207,9 @@
         if (l.Bot.state === 1) {
             l._T.battle.loopTimer = setInterval(function () {
                 if (l.Bot.state === 1) {
+                    l.log('Player health: ' + l.Player.health.min);
                     if (l.Player.health.min > l.Player.health.max * .9 && l.Player.timers.mob == '0:00' && l.Player.timers.attack == '0:00') {
                         l.killTimer('loopTimer');
-                        l.log('Player health: ' + l.Player.health.min);
 
                         // Клик на кнопку бой
                         ( new l.xG.Tg.Loader() ).block('/game/locations/claims/', l.xG.$('.game-locations'), function () {
