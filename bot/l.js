@@ -227,7 +227,7 @@
                 l.killTimer('attackMob');
                 l.loop();
             }
-        }, 50);
+        }, 250);
     };
 
     l.loop = function () {
