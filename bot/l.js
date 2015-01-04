@@ -132,7 +132,7 @@
             var health = l.xG.$('.bar-holder.helth .number').text().split('/');
             l.Player.health.min = +health[0];
             l.Player.health.max = +health[1];
-        }, 12);
+        }, 100);
     };
 
     l.setPTimers = function () {
@@ -142,7 +142,7 @@
             l.Player.timers.location = l.xG.$('.char-holder .timers .location').text();
             l.Player.timers.mob = l.xG.$('.char-holder .timers .mob').text();
             l.Player.timers.attack = l.xG.$('.char-holder .timers .atack').text();
-        }, 12);
+        }, 100);
     };
 
     l.killTimer = function (timer) {
@@ -166,9 +166,21 @@
         if (mobs.length > 0) {
             mob = $(mobs[(Math.floor(Math.random() * mobs.length))]);
             mobId = mob.siblings('.btn-attack').data('mobid');
-            mob.trigger('click');
-            l.log('Attack mob (' + mobId + ')...');
-            l.waitingMob();
+
+            $.get("/js/fight/attackmob/", {bot: mobId, data: {}}, function (data) {
+                //if (data.status == "ERROR") {
+                //    (new Tg.Dialog).showMessage(data.msg);
+                //}
+
+                l.log('Attack mob (' + mobId + ')...');
+                l.attack();
+                
+            }, "json");
+
+
+            //mob.trigger('click');
+            //l.log('Attack mob (' + mobId + ')...');
+            //l.waitingMob();
         }
     };
 
