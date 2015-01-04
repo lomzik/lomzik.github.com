@@ -174,8 +174,8 @@
 
                 l.log('Attack mob (' + mobId + ')...');
                 l.log(data);
-                
-                l.attack();
+
+                l.waitingMob();
 
             }, "json");
 
