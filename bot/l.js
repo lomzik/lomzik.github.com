@@ -173,8 +173,10 @@
                 //}
 
                 l.log('Attack mob (' + mobId + ')...');
-                l.attack();
+                l.log(data);
                 
+                l.attack();
+
             }, "json");
 
 
