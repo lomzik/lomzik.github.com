@@ -2,22 +2,29 @@
     root.L = root.L || {};
     var l = root.L,
         LinkLength,
-        _url;
+        _QS;
 
     l.init = function () {
         root.console.log('Start');
 
         LinkLength = $('#t_map select option')['length'];
 
-        _url = l.parseURL(root.location.href);
+        _QS = l.parseQS(root.location.search);
 
     };
 
     // parse URL
-    l.parseURL = function (str) {
-        var url = document.createElement('a');
-        url.href = str;
-        return url;
-    }
+    l.parseQS = function(q) {
+        return (function(a) {
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=');
+                if (p.length != 2) continue;
+                b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+        })(q.split("&"));
+    };
 
 })(window);
