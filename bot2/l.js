@@ -3,8 +3,7 @@
     var l = root.L;
 
     l.init = function () {
-        l.getJq();
-        l.getCss();
+        console.log('Start');
     };
 
 })(window);
