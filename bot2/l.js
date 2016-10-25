@@ -9,7 +9,7 @@
 
         LinkLength = $('#t_map select option')['length'];
 
-        _QS = l.parseQS(root.location.search);
+        _QS = l.parseQS(root.location.search.substring(1));
 
     };
 
