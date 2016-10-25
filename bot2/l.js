@@ -3,7 +3,7 @@
     var l = root.L;
 
     l.init = function () {
-        console.log('Start');
+        root.console.log('Start');
     };
 
 })(window);
